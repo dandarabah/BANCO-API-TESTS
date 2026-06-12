@@ -11,7 +11,7 @@ describe('Login', () => {
             const resposta = await request(process.env.BASE_URL)
                 .post('/login')
                 .set('Content-Type', 'application/json')
-                .send(postLogin)
+                .send(bodyLogin)
 
             expect(resposta.status).to.equal(200);
             expect(resposta.body.token).to.be.a('string');
