@@ -8,7 +8,7 @@ describe('Transferencias', () => {
     let token
 
     beforeEach( async () => {
-            token =  await obterToken('julio.lima', '123456')
+            token =  await obterToken('Lia.Rosa', '425133')
     })
 
     describe('POST /transferencias', () => {
@@ -20,7 +20,8 @@ describe('Transferencias', () => {
           .post('/transferencias')
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
-          .send(bodyTransferencia)
+          .send(bodyTransferencias)
+
           expect(resposta.status).to.equal(201);
           console.log(resposta.body)
       })
@@ -41,28 +42,33 @@ describe('Transferencias', () => {
   describe('GET /transferencias/{id}', () => {
     it('Deve retornar sucesso com 200 e dados iguais ao registros de tranferencia do banco de dados quando o ID for válido', async () => {
       const resposta = await request(process.env.BASE_URL)
-          .get('/transferencias/107')
+          .get('/transferencias/15')
           .set('Authorization', `Bearer ${token}`)
 
+        console.log(resposta.body)  
+        console.log(resposta.status)
+        
         expect(resposta.status).to.equal(200);
-        expect(resposta.body.id).to.equal(1);
+        expect(resposta.body.id).to.equal(15);
         expect(resposta.body.id).to.be.a('number');  //identificação do tipo de dado      
-        expect(resposta.body.conta_origem_id).to.equal(1);
+        expect(resposta.body.conta_origem_id).to.equal(3);
         expect(resposta.body.conta_destino_id).to.equal(2);
-        expect(resposta.body.valor).to.equal(40.00);
+        expect(resposta.body.valor).to.equal(100.00);
     })
   })
 
   describe('GET /transferencias', () => { 
     it('Deve retornar elementos na paginação quando informar limite de registros', async () => { 
       const resposta = await request(process.env.BASE_URL)
-          .get('/transferencias?limite=10')
-          .set('Authorization', `Bearer ${token}`) 
+          .get('/transferencias?page=1&limit10')
+          .set('Authorization', `Bearer ${token}`)
+        
+        console.log(resposta.body)  
+        console.log(resposta.status)
 
         expect(resposta.status).to.equal(200);
-        expect(resposta.body.limite).to.equal(10); //verificar se o número de registros retornados é no máximo 10
-        expect(resposta.body.transferencias).to.have.lengthOf(10); //verificar se o campo transferencias é um arra
-
+        expect(resposta.body.limit).to.equal(10); //verificar se o número de registros retornados é no máximo 10
+        expect(resposta.body.transferencias).to.have.lengthOf(10); //verificar se o campo transferencias é um array
     })
 
   })
