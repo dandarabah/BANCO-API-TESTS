@@ -92,10 +92,10 @@ Exemplo de organização do projeto:
 BANCO-API-TESTS
 │
 ├── test/
-│   ├── accounts/
-│   ├── auth/
-│   ├── transfers/
-│   └── users/
+│   ├── login.test.js
+│   ├── transferencias.test.js
+│   ├── 
+│   └── 
 │
 ├── support/
 │   ├── data/
