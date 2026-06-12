@@ -5,12 +5,14 @@ const { obterToken } = require('../helpers/autenticacao')
 const postTransferencias = require ('../fixtures/postTransferencias.json')
 
 describe('Transferencias', () => {
-  describe('POST /transferencias', () => {
-    let token  
+    let token
+
     beforeEach( async () => {
             token =  await obterToken('julio.lima', '123456')
     })
 
+    describe('POST /transferencias', () => {
+  
       it('Deve retornar sucesso com 201 quando o valor da transferencia for igual ou acima de R$10,00 ',  async () => {
         const bodyTransferencias = { ...postTransferencias } //fixtures clonado
 
@@ -34,6 +36,42 @@ describe('Transferencias', () => {
               .send(bodyTransferencias)
               expect(resposta.status).to.equal(422);  
       })
+   })
+
+  describe('GET /transferencias/{id}', () => {
+    it('Deve retornar sucesso com 200 e dados iguais ao registros de tranferencia do banco de dados quando o ID for válido', async () => {
+      const resposta = await request(process.env.BASE_URL)
+          .get('/transferencias/107')
+          .set('Authorization', `Bearer ${token}`)
+
+        expect(resposta.status).to.equal(200);
+        expect(resposta.body.id).to.equal(1);
+        expect(resposta.body.id).to.be.a('number');  //identificação do tipo de dado      
+        expect(resposta.body.conta_origem_id).to.equal(1);
+        expect(resposta.body.conta_destino_id).to.equal(2);
+        expect(resposta.body.valor).to.equal(40.00);
+    })
   })
+
+  describe('GET /transferencias', () => { 
+    it('Deve retornar elementos na paginação quando informar limite de registros', async () => { 
+      const resposta = await request(process.env.BASE_URL)
+          .get('/transferencias?limite=10')
+          .set('Authorization', `Bearer ${token}`) 
+
+        expect(resposta.status).to.equal(200);
+        expect(resposta.body.limite).to.equal(10); //verificar se o número de registros retornados é no máximo 10
+        expect(resposta.body.transferencias).to.have.lengthOf(10); //verificar se o campo transferencias é um arra
+
+    })
+
+  })
+
+
+
+
+
+
+
 
 })

@@ -1,6 +1,0 @@
-{
-    "contaOrigem"; 1,
-    "contaDestino"; 2,
-    "valor"; 14,
-    "token"; ""
-}
