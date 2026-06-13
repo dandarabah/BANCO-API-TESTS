@@ -3,6 +3,7 @@ const { expect } = require('chai')
 require('dotenv').config()
 const { obterToken } = require('../helpers/autenticacao')
 const postTransferencias = require ('../fixtures/postTransferencias.json')
+const putTransferencias = require ('../fixtures/putTransferencias.json')
 
 describe('Transferencias', () => {
     let token
@@ -70,8 +71,33 @@ describe('Transferencias', () => {
         expect(resposta.body.limit).to.equal(10); //verificar se o número de registros retornados é no máximo 10
         expect(resposta.body.transferencias).to.have.lengthOf(10); //verificar se o campo transferencias é um array
     })
+  })  
 
+  describe('PUT /transferencias/{id}', () => {
+    it('Deve retornar sucesso com 204, transferencias atualizadas quando o ID for válido', async () => {
+      const bodyTransferencias = { ...putTransferencias } //fixtures clonado
+       await request(process.env.BASE_URL)
+
+        .put('/transferencias/15')
+        .set('Authorization', `Bearer ${token}`)
+        .send(bodyTransferencias)
+        expect(204);
+    })
   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
 
