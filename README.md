@@ -93,8 +93,8 @@ BANCO-API-TESTS
 │
 ├── test/
 │   ├── login.test.js
+│   ├── contas.test.js
 │   ├── transferencias.test.js
-│   ├── 
 │   └── 
 │
 ├── support/
