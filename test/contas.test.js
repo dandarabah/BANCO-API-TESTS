@@ -35,17 +35,29 @@ describe('Contas', () => {
         })
     })
 
+    describe('GET /contas/{id}', () => {
+        it('Deve retornar sucesso com 200 e dados iguais ao registros de conta do banco de dados quando o ID for válido', async () => {
+          const resposta = await request(process.env.BASE_URL)
+                  .get('/contas/1')
+                  .set('Authorization', `Bearer ${token}`)
 
+            console.log(resposta.body)  
+            console.log(resposta.status)
+            console.log(JSON.stringify(resposta.body, null, 2)); //verificação detalhada da resposta para facilitar a identificação de possíveis erros na estrutura do objeto retornado na API
 
+            expect(resposta.status).to.equal(200);
+            expect(resposta.body.id).to.equal(1);
+            expect(resposta.body.id).to.be.a('number');
 
-
-
-
-
-
-
-
-
+            //validação da estrutura do objeto de resposta
+            expect(resposta.body).to.include.all.keys(
+            'id',
+            'titular',
+            'saldo',
+            'ativa'
+            );
+        })
+    })
 
 
 })    
