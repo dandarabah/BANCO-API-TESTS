@@ -105,25 +105,6 @@ describe('Transferencias', () => {
         expect(204);
     })
   })
-
-
-
-
-
-
-
-
-
-
-
-
   
-
-
-
-
-
-
-
 
 })
