@@ -85,6 +85,14 @@ describe('Transferencias', () => {
     })
   })
 
+  describe('DELETE /transferencias/{id}', () => {
+    it('Deve retornar sucesso com 204, transferencias deletada quando o ID for válido', async () => {
+       await request(process.env.BASE_URL)
+        .delete('/transferencias/12')
+        .set('Authorization', `Bearer ${token}`)
+        expect(204);
+    })
+  })
 
 
 
