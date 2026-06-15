@@ -4,6 +4,7 @@ require('dotenv').config()
 const { obterToken } = require('../helpers/autenticacao')
 const postTransferencias = require ('../fixtures/postTransferencias.json')
 const putTransferencias = require ('../fixtures/putTransferencias.json')
+const patchTransferencias = require ('../fixtures/patchTransferencias.json')
 
 describe('Transferencias', () => {
     let token
@@ -79,6 +80,17 @@ describe('Transferencias', () => {
        await request(process.env.BASE_URL)
 
         .put('/transferencias/15')
+        .set('Authorization', `Bearer ${token}`)
+        .send(bodyTransferencias)
+        expect(204);
+    })
+  })
+
+  describe('PATCH /transferencias/{id}', () => {
+    it('Deve retornar sucesso com 204, transferencias parcialmente atualizadas quando o ID for válido', async () => {
+      const bodyTransferencias = { ...patchTransferencias } //fixtures clonado
+       await request(process.env.BASE_URL)
+        .patch('/transferencias/39')
         .set('Authorization', `Bearer ${token}`)
         .send(bodyTransferencias)
         expect(204);
